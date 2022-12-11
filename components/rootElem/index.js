@@ -1,4 +1,4 @@
-import { LitElement, html, css } from '/lit-core.min.js';
+import { LitElement, html, css } from '../../lit-core.min.js';
 import '../flipCard/index.js';
 import { extractArticle, fetchData, pickWord } from './wordStuff.js';
 
