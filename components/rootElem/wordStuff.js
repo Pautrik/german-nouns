@@ -1,4 +1,4 @@
-const dataUrl = '../../data.json';
+const dataUrl = 'data.json';
 
 export const fetchData = async () => {
     const resp =  await fetch(dataUrl);
