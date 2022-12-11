@@ -1,5 +1,6 @@
-import { LitElement, html, css } from '/lit-core.min.js';
+import { LitElement, html, css } from '../../lit-core.min.js';
 import { extractArticle } from '../rootElem/wordStuff.js';
+
 
 const articles = [
     { color: 'lightblue', text: 'Der' },
