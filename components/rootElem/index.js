@@ -1,13 +1,13 @@
 import { LitElement, html, css } from '../../lit-core.min.js';
 import '../flipCard/index.js';
-import { extractArticle, fetchData, pickWord } from './wordStuff.js';
+import { fetchData, pickWord } from './wordStuff.js';
 
 export class RootElem extends LitElement {
     static properties = {};
 
     _data = null;
-    _wordData = ['', '', ''];
-    _isRandom = true;
+    _wordData = ['', [], '', ''];
+    _isRandom = false;
     _isSolution = true;
     _incorrectAnswers = [];
     
@@ -38,13 +38,14 @@ export class RootElem extends LitElement {
     }
 
     render() {
-        const [english, germanSingular, germanPlural] = this._wordData;
+        const [english, germanArticles, germanStem, germanPlural] = this._wordData;
 
         return html`
             <flip-card
                 ?showingAnswer=${this._isSolution}
                 english=${english}
-                germanSingular=${germanSingular}
+                .germanArticles=${germanArticles}
+                germanStem=${germanStem}
                 germanPlural=${germanPlural}
                 .selectAnswer=${this._submitAnswer.bind(this)}
             />
@@ -62,11 +63,10 @@ export class RootElem extends LitElement {
     }
     
     _submitAnswer(answeredIndex) {
-        const [article] = extractArticle(this._wordData[1]);
-        const lowerArticle = article.toLowerCase();
-        const articles = ['der', 'die', 'das'];
-        const articleIndex = articles.indexOf(lowerArticle);
-        if(articleIndex === answeredIndex) {
+        const articles = this._wordData[1].map(x => x.toLowerCase());
+        const availableArticles = ['der', 'die', 'das'];
+        const correctAnswer = articles.includes(availableArticles[answeredIndex]);
+        if(correctAnswer) {
             console.log('Correct!')
         }
         else {

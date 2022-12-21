@@ -1,5 +1,4 @@
 import { LitElement, html, css } from '../../lit-core.min.js';
-import { extractArticle } from '../rootElem/wordStuff.js';
 
 
 const articles = [
@@ -11,7 +10,8 @@ const articles = [
 export class FlipCard extends LitElement {
     static properties = {
         english: { type: String },
-        germanSingular: { type: String },
+        germanArticles: { type: Array },
+        germanStem: { type: String },
         germanPlural: { type: String },
         showingAnswer: { type: Boolean },
         selectAnswer: {}
@@ -138,7 +138,6 @@ export class FlipCard extends LitElement {
     }
 
     render() {
-        const [article, stem] = extractArticle(this.germanSingular);
         const hidClass = this.showingAnswer ? '' : 'hid';
         const mobileGermanFontSize =
             this.germanSingular.length >= 10 
@@ -161,7 +160,7 @@ export class FlipCard extends LitElement {
         let englishElem = '', pluralElem = '';
         if(this.showingAnswer) {
             englishElem = html`&#127468&#127463 <span> ${this.english}</span>`;
-            pluralElem = html`<span class="german-plural">${this.germanPlural}</span>`;
+            pluralElem = html`<span class="german-plural">${this.germanPlural || 'No plural form'}</span>`;
         }
 
         return html`
@@ -170,7 +169,7 @@ export class FlipCard extends LitElement {
             <div class="extra-info english spacer">${englishElem}</div>
             <div class="german-words">
                 <div class="word spacer">
-                    <span class="art ${hidClass}">${article} </span><span>${stem}</span>
+                    <span class="art ${hidClass}">${this.germanArticles[0]}${this.germanArticles[1] && html` (${this.germanArticles[1]})`} </span><span>${this.germanStem}</span>
                 </div>
                 <div class="extra-info spacer">${pluralElem}</div>
             </div>
